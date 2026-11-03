@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Bộ thí nghiệm ảo | Nở vì nhiệt của chất RẮN - LỎNG - KHÍ | STEM Vật lý</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            user-select: none; /* giữ giao diện sạch, vẫn copy code */
+        }
+
+        body {
+            background: linear-gradient(145deg, #c0d0e8 0%, #9bb5db 100%);
+            font-family: 'Segoe UI', 'Poppins', 'Inter', system-ui, sans-serif;
+            margin: 0;
+            padding: 20px 18px;
+        }
+
+        /* MAIN CONTAINER */
+        .master-container {
+            max-width: 1600px;
+            margin: 0 auto;
+            background: rgba(250, 248, 240, 0.96);
+            border-radius: 56px;
+            box-shadow: 0 30px 45px rgba(0, 0, 0, 0.25), inset 0 1px 2px rgba(255, 255, 240, 0.9);
+            overflow: hidden;
+            padding: 20px 28px 32px;
+            backdrop-filter: blur(2px);
+        }
+
+        /* HEADER CHUNG */
+        .unified-header {
+            text-align: center;
+            margin-bottom: 28px;
+            border-bottom: 2px solid #ffc285;
+            padding-bottom: 12px;
+        }
+        .unified-header h1 {
+            font-size: 2rem;
+            background: linear-gradient(135deg, #0a3a5a, #1f7cae);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            margin: 0 0 5px;
+        }
+        .unified-header p {
+            color: #2b5a82;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        /* 3 CỘT CHÍNH (RẮN - LỎNG - KHÍ) */
+        .three-columns {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 24px;
+            margin: 20px 0 10px;
+        }
+        .column {
+            flex: 1;
+            min-width: 320px;
+            background: #fefcf5;
+            border-radius: 44px;
+            box-shadow: 0 12px 22px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            border: 1px solid #ffecce;
+            transition: all 0.2s;
+        }
+        .column-header {
+            background: #fff1e0;
+            padding: 16px 14px 12px;
+            text-align: center;
+            border-bottom: 2px solid #ffcd94;
+        }
+        .column-header h2 {
+            margin: 0;
+            font-size: 1.55rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+        .column-header span.badge {
+            background: #1f4870;
+            color: white;
+            padding: 4px 14px;
+            border-radius: 36px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            display: inline-block;
+            margin-top: 8px;
+        }
+        .column-content {
+            padding: 20px 18px 24px;
+        }
+
+        /* ----- CHẤT RẮN (HAI THANH KIM LOẠI) ----- */
+        .comparison-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin-bottom: 20px;
+            background: #eae3d2;
+            border-radius: 40px;
+            padding: 20px 15px;
+        }
+        .metal-item {
+            background: #fef7e8;
+            border-radius: 28px;
+            padding: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        .metal-label {
+            font-weight: bold;
+            font-size: 0.85rem;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            border-left: 4px solid #ffb347;
+            padding-left: 10px;
+        }
+        .metal-bar {
+            background: linear-gradient(90deg, #bd7430, #e3a060);
+            height: 58px;
+            border-radius: 50px;
+            transition: width 0.15s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            width: 180px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 18px;
+            color: white;
+            font-weight: bold;
+            text-shadow: 1px 1px 0 #5a2e0e;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        .reference-bar {
+            background: linear-gradient(90deg, #8e9eae, #b0c0d0);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+        .param-group {
+            margin: 12px 0;
+        }
+        .param-row {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 12px;
+            align-items: center;
+        }
+        .btn-small {
+            background: #ffaa55;
+            border: none;
+            border-radius: 60px;
+            padding: 6px 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        input.l0-input, input.v0-input {
+            width: 110px;
+            padding: 8px;
+            border-radius: 60px;
+            border: 1px solid #ccc;
+            text-align: center;
+            font-weight: 600;
+        }
+        .slider-style {
+            width: 100%;
+            margin: 8px 0;
+        }
+        .material-btns {
+            display: flex;
+            gap: 8px;
+            margin: 10px 0;
+        }
+        .mat-btn {
+            background: #eef2fc;
+            border: none;
+            border-radius: 30px;
+            padding: 6px 12px;
+            font-weight: 600;
+            font-size: 0.75rem;
+            cursor: pointer;
+            flex: 1;
+            text-align: center;
+        }
+        .mat-btn.active {
+            background: #ffb347;
+            color: #2d2b24;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+        }
+        .info-stats {
+            display: flex;
+            justify-content: space-between;
+            gap: 8px;
+            margin-top: 16px;
+        }
+        .stat-card {
+            background: white;
+            border-radius: 24px;
+            padding: 6px;
+            text-align: center;
+            flex: 1;
+        }
+        .stat-card .stat-val {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: #022b49;
+        }
+
+        /* ----- CHẤT LỎNG (CỐC THỦY TINH) ----- */
+        .beaker-wrapper {
+            background: #f4efe1;
+            border-radius: 48px;
+            padding: 12px;
+            margin-bottom: 12px;
+        }
+        canvas.beaker-canvas {
+            background: #fffef7;
+            border-radius: 28px;
+            width: 100%;
+            height: auto;
+        }
+        .overflow-warning {
+            color: #c0392b;
+            font-weight: bold;
+            font-size: 11px;
+            text-align: center;
+            background: #ffe0d9;
+            border-radius: 30px;
+            display: inline-block;
+            padding: 2px 12px;
+        }
+
+        /* ----- CHẤT KHÍ (PITTONG + VẠCH) ----- */
+        .cylinder-wrap {
+            background: #f4efe1;
+            border-radius: 48px;
+            padding: 12px;
+        }
+        canvas.gas-canvas {
+            background: #fefcf7;
+            border-radius: 32px;
+            width: 100%;
+            height: auto;
+        }
+        .gas-badge {
+            text-align: center;
+            background: #1f3f5c;
+            padding: 6px;
+            border-radius: 60px;
+            color: white;
+            font-size: 0.7rem;
+            margin-top: 8px;
+        }
+
+        /* chung */
+        .temp-label {
+            font-weight: 700;
+            margin-top: 14px;
+            margin-bottom: 4px;
+        }
+        .note-micro {
+            background: #e6f2ff;
+            border-radius: 28px;
+            padding: 8px;
+            font-size: 0.7rem;
+            margin-top: 14px;
+            text-align: center;
+        }
+        footer {
+            font-size: 0.7rem;
+            text-align: center;
+            color: #2c3e66;
+            margin-top: 28px;
+            border-top: 1px solid #ddd6c5;
+            padding-top: 14px;
+        }
+        @media (max-width: 950px) {
+            .three-columns { flex-direction: column; }
+            .master-container { padding: 16px; }
+        }
+    </style>
+</head>
+<body>
+<div class="master-container">
+    <div class="unified-header">
+        <h1>🧪 SỰ NỞ VÌ NHIỆT CỦA CÁC CHẤT | RẮN - LỎNG - KHÍ</h1>
+        <p>📐 Công thức: Rắn ΔL = α·L₀·ΔT &nbsp;|&nbsp; Lỏng ΔV = β·V₀·ΔT &nbsp;|&nbsp; Khí ΔV = γ·V₀·ΔT (γ = 1/273.15)</p>
+    </div>
+
+    <div class="three-columns">
+        <!-- ========================================== CỘT 1: CHẤT RẮN ================================= -->
+        <div class="column">
+            <div class="column-header">
+                <h2>🔩 CHẤT RẮN</h2>
+                <span class="badge">Nở dài · ΔL = α·L₀·ΔT (-50°C → 600°C)</span>
+            </div>
+            <div class="column-content">
+                <!-- Hai thanh kim loại so sánh -->
+                <div class="comparison-container">
+                    <div class="metal-item">
+                        <div class="metal-label">
+                            <span>🔘 Thanh đối chứng (25°C)</span>
+                            <span id="refLengthLabel">L = -- mm</span>
+                        </div>
+                        <div id="referenceMetalBar" class="metal-bar reference-bar" style="width:180px;">
+                            <span style="font-size:12px;">L₀ = -- mm</span>
+                        </div>
+                    </div>
+                    <div class="metal-item">
+                        <div class="metal-label">
+                            <span>🔥 Thanh thí nghiệm (Thay đổi theo nhiệt độ)</span>
+                            <span id="solidLengthLabel">L = -- mm</span>
+                        </div>
+                        <div id="solidMetalBar" class="metal-bar" style="width:180px;">
+                            <span id="solidLengthInner" style="font-size:12px;">L = -- mm</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="param-group">
+                    <div class="param-row">
+                        <span>📏 L₀ (mm) tại 25°C</span>
+                        <input type="number" id="solidL0Input" class="l0-input" step="any" value="200.0">
+                        <button id="applySolidL0" class="btn-small">Cập nhật</button>
+                    </div>
+                    <div class="material-btns" id="solidMaterialGroup">
+                        <button class="mat-btn active" data-solid="copper">🔶 Đồng</button>
+                        <button class="mat-btn" data-solid="aluminum">⚪ Nhôm</button>
+                        <button class="mat-btn" data-solid="iron">⚙️ Sắt</button>
+                    </div>
+                    <div class="temp-label">🌡️ Nhiệt độ thanh thí nghiệm: <span id="solidTempVal">25</span> °C</div>
+                    <input type="range" id="solidTempSlider" class="slider-style" min="-50" max="600" value="25" step="1">
+                </div>
+                <div class="info-stats">
+                    <div class="stat-card"><div>📏 L (mm)</div><div class="stat-val" id="solidCurrentL">---</div></div>
+                    <div class="stat-card"><div>📈 ΔL (mm)</div><div class="stat-val" id="solidDeltaL">0.0000</div></div>
+                    <div class="stat-card"><div>🧪 α (×10⁻⁶)</div><div class="stat-val" id="solidAlpha">---</div></div>
+                </div>
+                <div class="note-micro">🔬 Khoảng nhiệt độ -50°C đến 600°C. Thanh co lại khi lạnh, nở rõ khi nóng. So sánh trực tiếp với thanh đối chứng ở nhiệt độ phòng.</div>
+            </div>
+        </div>
+
+        <!-- ========================================== CỘT 2: CHẤT LỎNG ================================= -->
+        <div class="column">
+            <div class="column-header">
+                <h2>💧 CHẤT LỎNG</h2>
+                <span class="badge">Nở khối · ΔV = β·V₀·ΔT (Giới hạn 0-70°C)</span>
+            </div>
+            <div class="column-content">
+                <div class="beaker-wrapper">
+                    <canvas id="liquidBeakerCanvas" class="beaker-canvas" width="400" height="220" style="width:100%; background:#fffef7;"></canvas>
+                    <div id="liquidWarning" style="text-align:center; margin-top:6px;"></div>
+                </div>
+                <div class="param-group">
+                    <div class="param-row">
+                        <span>🧪 V₀ (ml) tại 25°C</span>
+                        <input type="number" id="liquidV0Input" class="v0-input" step="any" value="180.0">
+                        <button id="applyLiquidV0" class="btn-small">Cập nhật</button>
+                    </div>
+                    <div class="material-btns" id="liquidMaterialGroup">
+                        <button class="mat-btn" data-liquid="water">💧 Nước</button>
+                        <button class="mat-btn active" data-liquid="ethanol">🍷 Rượu etylic</button>
+                        <button class="mat-btn" data-liquid="vinegar">🍶 Giấm ăn</button>
+                    </div>
+                    <div class="temp-label">🌡️ Nhiệt độ chất lỏng: <span id="liquidTempVal">25</span> °C</div>
+                    <input type="range" id="liquidTempSlider" class="slider-style" min="0" max="70" value="25" step="1">
+                </div>
+                <div class="info-stats">
+                    <div class="stat-card"><div>📦 V (ml)</div><div class="stat-val" id="liquidCurrentV">---</div></div>
+                    <div class="stat-card"><div>📈 ΔV (ml)</div><div class="stat-val" id="liquidDeltaV">0.0000</div></div>
+                    <div class="stat-card"><div>🧪 β (×10⁻⁶)</div><div class="stat-val" id="liquidBeta">---</div></div>
+                </div>
+                <div class="note-micro">🥛 Cốc 1000ml, vạch 100ml. Giới hạn nhiệt độ 0-70°C. Giấm ăn có hệ số nở khối trung bình (860×10⁻⁶).</div>
+            </div>
+        </div>
+
+        <!-- ========================================== CỘT 3: CHẤT KHÍ ================================= -->
+        <div class="column">
+            <div class="column-header">
+                <h2>⚛️ CHẤT KHÍ</h2>
+                <span class="badge">Đẳng áp · V = V₀(1 + γ·ΔT) · γ=1/273.15</span>
+            </div>
+            <div class="column-content">
+                <div class="cylinder-wrap">
+                    <canvas id="gasPistonCanvas" class="gas-canvas" width="500" height="300" style="width:100%; background:#fefcf7;"></canvas>
+                    <div class="gas-badge" id="gasVolumeText">📊 Thể tích khí: -- ml</div>
+                </div>
+                <div class="param-group">
+                    <div class="param-row">
+                        <span>📌 V₀ (ml) tại 0°C</span>
+                        <input type="number" id="gasV0Input" class="v0-input" step="any" value="180.0">
+                        <button id="applyGasV0" class="btn-small">Cập nhật</button>
+                    </div>
+                    <div class="temp-label">🌡️ Nhiệt độ khí: <span id="gasTempVal">25</span> °C</div>
+                    <input type="range" id="gasTempSlider" class="slider-style" min="0" max="100" value="25" step="1">
+                </div>
+                <div class="info-stats">
+                    <div class="stat-card"><div>📦 V (ml)</div><div class="stat-val" id="gasCurrentV">---</div></div>
+                    <div class="stat-card"><div>📈 ΔV (ml)</div><div class="stat-val" id="gasDeltaV">0.0000</div></div>
+                    <div class="stat-card"><div>🎯 γ = 1/273.15</div><div class="stat-val">0.003661</div></div>
+                </div>
+                <div class="note-micro">💨 Pittong di chuyển chính xác theo tỉ lệ thể tích. V = V₀ (1 + ΔT/273.15).</div>
+            </div>
+        </div>
+    </div>
+    <footer>✅ Các mô hình đều tuân theo định luật nở vì nhiệt | Tương tác trực quan, thay đổi nhiệt độ, vật liệu, thể tích ban đầu → quan sát sự thay đổi kích thước.</footer>
+</div>
+
+<script>
+    // --------------------------------------------------------------
+    // 1. CHẤT RẮN (NỞ DÀI) - KHOẢNG NHIỆT -50 ĐẾN 600
+    // --------------------------------------------------------------
+    const SOLID_MATS = { 
+        copper: { name:"Đồng", alpha:17e-6, color1:"#bd7430", color2:"#e3a060" }, 
+        aluminum: { name:"Nhôm", alpha:24e-6, color1:"#b8c7dd", color2:"#d4e2f5" }, 
+        iron: { name:"Sắt", alpha:12e-6, color1:"#7e8d9e", color2:"#a1b0c2" } 
+    };
+    let solidL0 = 200.0;          // mm
+    let solidMaterial = "copper";
+    let solidTemp = 25;
+    const SOLID_REF_TEMP = 25;
+
+    function computeSolid() {
+        let alpha = SOLID_MATS[solidMaterial].alpha;
+        let deltaT = solidTemp - SOLID_REF_TEMP;
+        let deltaL = solidL0 * alpha * deltaT;
+        let L = solidL0 + deltaL;
+        if (L < 0) L = 0;
+        return { L, deltaL, alphaMicro: alpha * 1e6 };
+    }
+
+    // Cập nhật giao diện thanh kim loại (Cả thanh thí nghiệm và thanh đối chứng)
+    function updateSolidMetalBar(currentLen) {
+        // Thanh thí nghiệm thay đổi theo nhiệt độ
+        let bar = document.getElementById("solidMetalBar");
+        // Tính toán chiều rộng dựa trên tỷ lệ với chiều dài tham chiếu
+        // Sử dụng width cơ sở là 180px tương ứng với L0
+        let baseWidth = 180;
+        let targetW = baseWidth * (currentLen / solidL0);
+        
+        // Giới hạn chiều rộng để không quá nhỏ hoặc quá lớn
+        targetW = Math.max(targetW, 40);
+        targetW = Math.min(targetW, 550);
+        
+        if(bar) {
+            bar.style.width = targetW + "px";
+            // Cập nhật màu sắc dựa trên nhiệt độ (nóng hơn -> đỏ hơn, lạnh -> xanh)
+            let t = solidTemp;
+            let mat = SOLID_MATS[solidMaterial];
+            if(t > 100) {
+                let intensity = Math.min(1, (t - 100) / 300);
+                bar.style.background = `linear-gradient(90deg, #ff6b35, #ff2200)`;
+            } else if(t < 0) {
+                bar.style.background = `linear-gradient(90deg, #6ca0c0, #4a7a9c)`;
+            } else {
+                bar.style.background = `linear-gradient(90deg, ${mat.color1}, ${mat.color2})`;
+            }
+        }
+        
+        // Thanh đối chứng giữ cố định tại L0 (nhiệt độ phòng)
+        let refBar = document.getElementById("referenceMetalBar");
+        if(refBar) {
+            refBar.style.width = baseWidth + "px";
+            document.getElementById("refLengthLabel").innerHTML = `L = ${solidL0.toFixed(3)} mm`;
+            refBar.querySelector('span').innerHTML = `L₀ = ${solidL0.toFixed(1)} mm`;
+        }
+    }
+
+    function refreshSolidUI() {
+        let { L, deltaL, alphaMicro } = computeSolid();
+        document.getElementById("solidCurrentL").innerHTML = L.toFixed(4);
+        document.getElementById("solidDeltaL").innerHTML = deltaL.toFixed(6);
+        document.getElementById("solidAlpha").innerHTML = alphaMicro.toFixed(1);
+        document.getElementById("solidTempVal").innerHTML = solidTemp;
+        document.getElementById("solidLengthLabel").innerHTML = `L = ${L.toFixed(3)} mm`;
+        document.getElementById("solidLengthInner").innerHTML = `L = ${L.toFixed(2)} mm`;
+        updateSolidMetalBar(L);
+    }
+
+    // sự kiện rắn
+    document.getElementById("applySolidL0").addEventListener("click",()=>{
+        let val = parseFloat(document.getElementById("solidL0Input").value);
+        if(isNaN(val) || val<=0) alert("L₀ phải dương");
+        else { solidL0 = val; refreshSolidUI(); }
+    });
+    document.getElementById("solidTempSlider").addEventListener("input",(e)=>{ 
+        solidTemp = parseInt(e.target.value); 
+        refreshSolidUI(); 
+    });
+    document.querySelectorAll("#solidMaterialGroup .mat-btn").forEach(btn=>{
+        btn.addEventListener("click",()=>{
+            document.querySelectorAll("#solidMaterialGroup .mat-btn").forEach(b=>b.classList.remove("active"));
+            btn.classList.add("active");
+            solidMaterial = btn.getAttribute("data-solid");
+            refreshSolidUI();
+        });
+    });
+    
+    // --------------------------------------------------------------
+    // 2. CHẤT LỎNG (THÊM GIẤM ĂN, GIỚI HẠN 0-70°C)
+    // --------------------------------------------------------------
+    const LIQUIDS = { 
+        water: {beta:214e-6, color:"#4aa3df"}, 
+        ethanol:{beta:1100e-6, color:"#c0a080"}, 
+        vinegar:{beta:860e-6, color:"#bc9a6c"}  // Hệ số nở khối của giấm ăn
+    };
+    let liquidV0 = 180.0;   // ml
+    let liquidMaterial = "ethanol";
+    let liquidTemp = 25;
+    const LIQ_REF = 25;
+    const MAX_CAP = 1000;
+    // Giới hạn nhiệt độ 0-70 đã được set trong slider (min=0 max=70)
+    function computeLiquid() {
+        let beta = LIQUIDS[liquidMaterial].beta;
+        let deltaT = liquidTemp - LIQ_REF;
+        let deltaV = liquidV0 * beta * deltaT;
+        let V = liquidV0 + deltaV;
+        if(V < 0) V = 0;
+        return { V, deltaV, betaMicro: beta*1e6 };
+    }
+    function drawBeaker() {
+        let canvas = document.getElementById("liquidBeakerCanvas");
+        if(!canvas) return;
+        let container = canvas.parentElement;
+        let w = Math.max(container.clientWidth - 20, 350);
+        canvas.width = w;
+        canvas.height = 210;
+        let ctx = canvas.getContext("2d");
+        let { V } = computeLiquid();
+        let overflow = V > MAX_CAP;
+        let drawVol = overflow ? MAX_CAP : (V<0?0:V);
+        let marginX = w*0.12, topY=22, bottomY=180, cupWidth = w - 2*marginX, cupHeight= bottomY-topY;
+        ctx.fillStyle="#fdfaf0";
+        ctx.fillRect(marginX, topY, cupWidth, cupHeight);
+        ctx.strokeStyle="#aa9f82";
+        ctx.strokeRect(marginX, topY, cupWidth, cupHeight);
+        for(let vol=0; vol<=MAX_CAP; vol+=100){
+            let yTick = topY + cupHeight*(1 - (vol/MAX_CAP));
+            if(yTick>topY && yTick<bottomY){
+                ctx.beginPath();
+                ctx.moveTo(marginX-8, yTick);
+                ctx.lineTo(marginX+cupWidth+8, yTick);
+                ctx.strokeStyle="#cdbba0";
+                ctx.stroke();
+                ctx.fillStyle="#5f4e36";
+                ctx.font="9px monospace";
+                ctx.fillText(vol+"ml", marginX-32, yTick+3);
+            }
+        }
+        let ratio = drawVol/MAX_CAP;
+        if(ratio>0.98) ratio=0.98;
+        if(ratio<0.02) ratio=0.02;
+        let liquidTop = bottomY - ratio*cupHeight;
+        ctx.fillStyle = LIQUIDS[liquidMaterial].color;
+        ctx.fillRect(marginX+1, liquidTop, cupWidth-2, bottomY-liquidTop);
+        ctx.fillStyle="#1f3b4c";
+        ctx.font="bold 10px";
+        ctx.fillText(`${V.toFixed(1)} ml`, marginX+10, liquidTop-4);
+        if(overflow){
+            ctx.fillStyle="#ffccccaa";
+            ctx.fillRect(marginX+2, topY-10, cupWidth-4, 14);
+            ctx.fillStyle="#c0392b";
+            ctx.font="bold 9px";
+            ctx.fillText("⚠️ TRÀN", marginX+cupWidth/2-28, topY-2);
+        }
+        let warnDiv = document.getElementById("liquidWarning");
+        if(overflow) warnDiv.innerHTML = '<span class="overflow-warning">⚠️ Cảnh báo: Thể tích > 1000ml, chất lỏng tràn miệng!</span>';
+        else warnDiv.innerHTML = '';
+    }
+    function refreshLiquidUI(){
+        let { V, deltaV, betaMicro } = computeLiquid();
+        document.getElementById("liquidCurrentV").innerHTML = V.toFixed(4);
+        document.getElementById("liquidDeltaV").innerHTML = deltaV.toFixed(6);
+        document.getElementById("liquidBeta").innerHTML = betaMicro.toFixed(0);
+        document.getElementById("liquidTempVal").innerHTML = liquidTemp;
+        drawBeaker();
+    }
+    document.getElementById("applyLiquidV0").addEventListener("click",()=>{
+        let val = parseFloat(document.getElementById("liquidV0Input").value);
+        if(isNaN(val) || val<=0) alert("V₀ phải dương");
+        else if(val>MAX_CAP) alert(`V₀ không vượt quá ${MAX_CAP}ml`);
+        else { liquidV0 = val; refreshLiquidUI(); }
+    });
+    document.getElementById("liquidTempSlider").addEventListener("input",(e)=>{ liquidTemp = parseInt(e.target.value); refreshLiquidUI(); });
+    document.querySelectorAll("#liquidMaterialGroup .mat-btn").forEach(btn=>{
+        btn.addEventListener("click",()=>{
+            document.querySelectorAll("#liquidMaterialGroup .mat-btn").forEach(b=>b.classList.remove("active"));
+            btn.classList.add("active");
+            liquidMaterial = btn.getAttribute("data-liquid");
+            refreshLiquidUI();
+        });
+    });
+    
+    // --------------------------------------------------------------
+    // 3. CHẤT KHÍ (GIỮ NGUYÊN)
+    // --------------------------------------------------------------
+    const GAMMA = 1/273.15;
+    let gasV0 = 180.0;         // ml ở 0°C
+    let gasTemp = 25;
+    let gasParticles = [];
+    let gasCanvas, gasCtx, gasGeom = null;
+    const PARTICLE_COUNT = 55;
+    function computeGas() {
+        let deltaT = gasTemp - 0;
+        let V = gasV0 * (1 + GAMMA * deltaT);
+        let deltaV = V - gasV0;
+        return { V, deltaV };
+    }
+    function initGasParticles(geom) {
+        let parts = [];
+        for(let i=0;i<PARTICLE_COUNT;i++){
+            parts.push({
+                x: geom.x + 12 + Math.random()*(geom.width-24),
+                y: geom.pistonY + 10 + Math.random()*(geom.gasHeight-20),
+                vx: (Math.random()-0.5)*1.4,
+                vy: (Math.random()-0.5)*1.4
+            });
+        }
+        return parts;
+    }
+    function updateGasSpeeds() {
+        let Tk = gasTemp + 273.15;
+        let Tref = 25+273.15;
+        let speedFac = Math.sqrt(Tk/Tref);
+        for(let p of gasParticles){
+            let spd = Math.hypot(p.vx, p.vy);
+            let target = 1.2 * speedFac;
+            if(spd<0.3) target = 0.8*speedFac;
+            let angle = Math.atan2(p.vy, p.vx);
+            p.vx = Math.cos(angle)*target;
+            p.vy = Math.sin(angle)*target;
+        }
+    }
+    function moveGasParticles(geom) {
+        if(!geom) return;
+        let { x:left, width, pistonY, bottomY } = geom;
+        let right = left+width;
+        let topBound = pistonY+6;
+        let bottomBound = bottomY-8;
+        for(let p of gasParticles){
+            p.x += p.vx;
+            p.y += p.vy;
+            if(p.x<left+6){ p.x=left+6; p.vx = -p.vx*0.95; }
+            if(p.x>right-6){ p.x=right-6; p.vx = -p.vx*0.95; }
+            if(p.y>bottomBound){ p.y=bottomBound; p.vy = -p.vy*0.95; }
+            if(p.y<topBound){ p.y=topBound; p.vy = -p.vy*0.95; }
+        }
+    }
+    function drawGasScene(geom, V) {
+        if(!gasCtx) return;
+        let ctx = gasCtx;
+        let w = gasCanvas.width, h = gasCanvas.height;
+        ctx.clearRect(0,0,w,h);
+        let { x, width, bottomY, topY, pistonY, gasHeight } = geom;
+        ctx.fillStyle="#f8f6ef";
+        ctx.fillRect(x, topY, width, bottomY-topY);
+        ctx.strokeStyle="#aa9977";
+        ctx.strokeRect(x, topY, width, bottomY-topY);
+        // khí
+        let grad = ctx.createLinearGradient(x, pistonY, x, bottomY);
+        grad.addColorStop(0,"#cbe4fe");
+        grad.addColorStop(1,"#9dc3f0");
+        ctx.fillStyle=grad;
+        ctx.fillRect(x+1, pistonY, width-2, gasHeight);
+        // hạt
+        for(let p of gasParticles){
+            ctx.beginPath();
+            let hue = 28 + (gasTemp/100)*36;
+            ctx.fillStyle = `hsl(${hue}, 75%, 58%)`;
+            ctx.arc(p.x, p.y, 3.2, 0, Math.PI*2);
+            ctx.fill();
+        }
+        // pittong
+        ctx.fillStyle="#5d6d7e";
+        ctx.fillRect(x-3, pistonY-7, width+6, 12);
+        ctx.fillStyle="#2c3e50";
+        ctx.fillRect(x+width/2-12, pistonY-22, 24, 18);
+        // Vạch thể tích bên phải
+        let stepVol = Math.max(20, Math.ceil(geom.maxDisplayVol/6));
+        for(let vol=0; vol<=geom.maxDisplayVol+stepVol; vol+=stepVol){
+            let ratio = vol/geom.maxDisplayVol;
+            let yTick = bottomY - ratio*(bottomY-topY);
+            if(yTick>topY-5 && yTick<bottomY+5){
+                ctx.beginPath();
+                ctx.moveTo(x+width+4, yTick);
+                ctx.lineTo(x+width+26, yTick);
+                ctx.strokeStyle="#5a4630";
+                ctx.stroke();
+                ctx.font="bold 10px monospace";
+                ctx.fillStyle="#1f3b2c";
+                ctx.fillText(vol+" ml", x+width+30, yTick+4);
+            }
+        }
+        ctx.fillStyle="#c7252e";
+        ctx.font="bold 11px monospace";
+        let curRatio = V/geom.maxDisplayVol;
+        if(curRatio > 1) curRatio = 1;
+        let yCur = bottomY - curRatio*(bottomY-topY);
+        ctx.fillText(`▼ ${V.toFixed(1)} ml`, x+width+32, yCur+5);
+        ctx.fillStyle="#1a4c6e";
+        ctx.font="bold 11px";
+        ctx.fillText(`🌡️ ${gasTemp}°C`, x+width/2-35, topY-10);
+    }
+    function updateGasGeometry() {
+        let canvas = gasCanvas;
+        let container = canvas.parentElement;
+        let width = Math.max(container.clientWidth-20, 400);
+        canvas.width = width;
+        canvas.height = 280;
+        let { V } = computeGas();
+        let cylX = canvas.width*0.14, cylWidth = canvas.width*0.68;
+        let bottomY = canvas.height-42, topY = 50;
+        let maxHeight = bottomY - topY;
+        let V_at_100 = gasV0*(1+GAMMA*100);
+        let maxDisplayVol = Math.max(V_at_100, gasV0*1.6, gasV0+60);
+        let heightRatio = V / maxDisplayVol;
+        if(heightRatio>0.96) heightRatio=0.96;
+        if(heightRatio<0.05) heightRatio=0.05;
+        let gasHeight = heightRatio * maxHeight;
+        let pistonY = bottomY - gasHeight;
+        let geom = { x:cylX, width:cylWidth, bottomY, topY, pistonY, gasHeight, maxHeight, maxDisplayVol };
+        if(gasParticles.length===0 || !gasGeom || Math.abs((gasGeom?.gasHeight||0)-gasHeight)>35){
+            gasParticles = initGasParticles(geom);
+        } else {
+            for(let p of gasParticles){
+                if(p.y > bottomY-8) p.y = bottomY-12;
+                if(p.y < pistonY+8) p.y = pistonY+14;
+                if(p.x < cylX+8) p.x = cylX+10;
+                if(p.x > cylX+cylWidth-12) p.x = cylX+cylWidth-14;
+            }
+        }
+        return geom;
+    }
+    function refreshGasUI(){
+        let { V, deltaV } = computeGas();
+        document.getElementById("gasCurrentV").innerHTML = V.toFixed(4);
+        document.getElementById("gasDeltaV").innerHTML = deltaV.toFixed(6);
+        document.getElementById("gasTempVal").innerHTML = gasTemp;
+        document.getElementById("gasVolumeText").innerHTML = `📊 Thể tích khí: ${V.toFixed(2)} ml | Pittong ở vạch ${V.toFixed(1)} ml`;
+        gasGeom = updateGasGeometry();
+        updateGasSpeeds();
+        moveGasParticles(gasGeom);
+        drawGasScene(gasGeom, V);
+    }
+    function animateGas() {
+        if(!gasGeom) { refreshGasUI(); requestAnimationFrame(animateGas); return; }
+        moveGasParticles(gasGeom);
+        let { V } = computeGas();
+        drawGasScene(gasGeom, V);
+        requestAnimationFrame(animateGas);
+    }
+    // khởi tạo khí
+    gasCanvas = document.getElementById("gasPistonCanvas");
+    gasCtx = gasCanvas.getContext("2d");
+    document.getElementById("applyGasV0").addEventListener("click",()=>{
+        let val = parseFloat(document.getElementById("gasV0Input").value);
+        if(isNaN(val)|| val<=0) alert("V₀ > 0");
+        else { gasV0 = val; refreshGasUI(); }
+    });
+    document.getElementById("gasTempSlider").addEventListener("input",(e)=>{ gasTemp = parseInt(e.target.value); refreshGasUI(); });
+    
+    // khởi động tất cả
+    refreshSolidUI();
+    refreshLiquidUI();
+    refreshGasUI();
+    animateGas();
+    window.addEventListener("resize",()=>{ refreshSolidUI(); refreshLiquidUI(); refreshGasUI(); });
+</script>
+</body>
+</html>
